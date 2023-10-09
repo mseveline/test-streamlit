@@ -1,36 +1,35 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
+import tkinter as tk
 
-st.title('Uber pickups in NYC')
+def tambahkan():
+    try:
+        angka1 = float(entry_angka1.get())
+        angka2 = float(entry_angka2.get())
+        hasil = angka1 + angka2
+        label_hasil.config(text=f'Hasil: {hasil}')
+    except ValueError:
+        label_hasil.config(text='Masukkan angka yang valid')
 
-DATE_COLUMN = 'date/time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-            'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
+# Membuat jendela utama
+root = tk.Tk()
+root.title('Kalkulator Sederhana')
 
-@st.cache_data
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
-    return data
+# Membuat input field dan label
+label_angka1 = tk.Label(root, text='Angka 1:')
+label_angka1.pack()
+entry_angka1 = tk.Entry(root)
+entry_angka1.pack()
 
-data_load_state = st.text('Loading data...')
-data = load_data(10000)
-data_load_state.text("Done! (using st.cache_data)")
+label_angka2 = tk.Label(root, text='Angka 2:')
+label_angka2.pack()
+entry_angka2 = tk.Entry(root)
+entry_angka2.pack()
 
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data)
+# Membuat tombol untuk menghitung hasil
+tombol_hitung = tk.Button(root, text='Hitung', command=tambahkan)
+tombol_hitung.pack()
 
-st.subheader('Number of pickups by hour')
-hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
-st.bar_chart(hist_values)
+# Membuat label untuk menampilkan hasil
+label_hasil = tk.Label(root, text='')
+label_hasil.pack()
 
-# Some number in the range 0-23
-hour_to_filter = st.slider('hour', 0, 23, 17)
-filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
-
-st.subheader('Map of all pickups at %s:00' % hour_to_filter)
-st.map(filtered_data)
+root.mainloop()
