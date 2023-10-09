@@ -3,12 +3,12 @@ import streamlit as st
 st.title('Kalkulator Sederhana')
 
 # Input field untuk memasukkan angka pertama
-angka1 = st.number_input('Masukkan Angka Pertama', format="%f")
+angka1 = st.number_input('Masukkan Angka Pertama')
 
 # Input field untuk memasukkan angka kedua
-angka2 = st.number_input('Masukkan Angka Kedua', format="%f")
+angka2 = st.number_input('Masukkan Angka Kedua')
 
 # Tombol untuk menghitung hasil pertambahan
 if st.button('Hitung'):
-    hasil = int(angka1 + angka2)  # Mengonversi hasil ke bilangan bulat
+    hasil = angka1 + angka2
     st.write(f'Hasil Pertambahan: {hasil}')
