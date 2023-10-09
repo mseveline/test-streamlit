@@ -1,5 +1,3 @@
-import tkinter as tk
-
 def tambahkan():
     try:
         angka1 = float(entry_angka1.get())
